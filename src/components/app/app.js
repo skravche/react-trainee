@@ -38,6 +38,14 @@ class App extends Component {
     });
   };
 
+  //taken props done && important from 'todo-lost-item'
+  onToggleImportant = id => {
+    console.log('toggleImportant', id);
+  };
+  onToggleDone = id => {
+    console.log('toggleDone', id);
+  };
+
   addItem = text => {
     const newItem = {
       label: text,
@@ -61,7 +69,12 @@ class App extends Component {
           <SearchPanel />
           <ItemStatusFilter />
         </div>
-        <TodoList onDeleted={this.deleteItemState} todos={todoData} />
+        <TodoList
+          onDeleted={this.deleteItemState}
+          todos={todoData}
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
+        />
         <ItemAddFrom addItem={this.addItem} />
       </div>
     );
