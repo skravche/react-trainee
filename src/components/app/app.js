@@ -4,7 +4,6 @@ import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
 import TodoList from '../todo-list';
 import ItemStatusFilter from '../item-status-filter';
-import MainList from '../study/MainList';
 
 import './app.css';
 
@@ -17,7 +16,6 @@ const App = () => {
 
   return (
     <div className="todo-app">
-      <MainList />
       <AppHeader toDo={1} done={3} />
       <div className="top-panel d-flex">
         <SearchPanel />
