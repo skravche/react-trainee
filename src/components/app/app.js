@@ -4,16 +4,56 @@ import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
 import TodoList from '../todo-list';
 import ItemStatusFilter from '../item-status-filter';
+import ItemAddFrom from '../item-add-form';
 
 import './app.css';
 
-const todoData = [
-  { label: 'Drink Coffee', important: false, id: 1 },
-  { label: 'Make Awesome App', important: true, id: 2 },
-  { label: 'Have a lunch', important: false, id: 3 },
-];
 class App extends Component {
+  maxID = 100;
+
+  constructor() {
+    super();
+    this.state = {
+      todoData: [
+        { label: 'Event #1', important: false, id: 1 },
+        { label: 'Event #2', important: true, id: 2 },
+        { label: 'Event #3', important: false, id: 3 },
+        { label: 'Event #4', important: true, id: 4 },
+        { label: 'Event #5', important: false, id: 5 },
+      ],
+    };
+  }
+
+  deleteItemState = id => {
+    console.log(id);
+    this.setState(({ todoData }) => {
+      const index = todoData.findIndex(el => el.id === id);
+      const newData = [
+        ...todoData.slice(0, index),
+        ...todoData.slice(index + 1),
+      ];
+      return {
+        todoData: newData,
+      };
+    });
+  };
+
+  addItem = text => {
+    const newItem = {
+      label: text,
+      important: false,
+      id: this.maxID++,
+    };
+    this.setState(({ todoData }) => {
+      const newDataEvent = [...todoData, newItem];
+      return {
+        todoData: newDataEvent,
+      };
+    });
+  };
+
   render() {
+    const { todoData } = this.state;
     return (
       <div className="todo-app">
         <AppHeader toDo={1} done={3} />
@@ -21,7 +61,8 @@ class App extends Component {
           <SearchPanel />
           <ItemStatusFilter />
         </div>
-        <TodoList onDeleted={id => console.log(id)} todos={todoData} />
+        <TodoList onDeleted={this.deleteItemState} todos={todoData} />
+        <ItemAddFrom addItem={this.addItem} />
       </div>
     );
   }
