@@ -13,10 +13,14 @@ class TodoListItem extends Component {
   onLabelClick = () => {
     this.setState({ done: true });
   };
+  actionClick = () => {
+    this.setState({ clickBTN: 'done' });
+  };
 
   render() {
     const { label, important = false } = this.props; //destructor props
     const { done } = this.state;
+
     let classNames = 'todo-list-item';
     if (done) {
       classNames += ' done';
@@ -45,6 +49,7 @@ class TodoListItem extends Component {
         </button>
 
         <button
+          // onClick={this.actionClick}
           type="button"
           className="btn btn-outline-danger btn-sm float-right"
         >
