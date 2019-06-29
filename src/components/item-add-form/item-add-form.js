@@ -16,6 +16,7 @@ class ItemAddForm extends Component {
   onSubmitFrom = e => {
     e.preventDefault();
     this.props.addItem(this.state.label);
+    this.setState({ label: '' });
   };
 
   render() {
@@ -28,10 +29,11 @@ class ItemAddForm extends Component {
             className="form-control"
             onChange={this.onLabelChange}
             placeholder="Write tasks here..."
+            value={label}
           />
           <button className="btn btn-outline-secondary">Add event</button>
         </form>
-        {console.log(JSON.stringify(label, undefined, 2))}
+        {/* {console.log(JSON.stringify(label, undefined, 2))} */}
       </div>
     );
   }

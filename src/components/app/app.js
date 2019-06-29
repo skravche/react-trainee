@@ -20,6 +20,7 @@ class App extends Component {
         this.createToDoItem('Event #3'),
         this.createToDoItem('Event #4'),
       ],
+      query: '',
     };
   }
   createToDoItem(label) {
@@ -75,21 +76,36 @@ class App extends Component {
     });
   };
 
+  searchEvent = (items, query) => {
+    if (query.length === 0) {
+      return items;
+    }
+    return items.filter(items => {
+      return items.label.indexOf(query) > -1; //
+    });
+  };
+  onSearchChange = query => {
+    this.setState({ query });
+  };
+
   render() {
-    const { todoData } = this.state;
+    const { todoData, query } = this.state;
     const doneCount = todoData.filter(el => el.done).length; //filtered all elements where done: true!
     const toDoCount = todoData.length - doneCount;
+    const itemsToShow = this.searchEvent(todoData, query);
+
+    console.log(query);
 
     return (
       <div className="todo-app">
         <AppHeader toDo={toDoCount} done={doneCount} />
         <div className="top-panel d-flex">
-          <SearchPanel />
+          <SearchPanel onSearchChange={this.onSearchChange} />
           <ItemStatusFilter />
         </div>
         <TodoList
           onDeleted={this.deleteItemState}
-          todos={todoData}
+          todos={itemsToShow}
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}
         />
