@@ -21,6 +21,7 @@ class App extends Component {
         this.createToDoItem('Event #4'),
       ],
       query: '',
+      filter: 'all', //on all off
     };
   }
   createToDoItem(label) {
@@ -44,6 +45,7 @@ class App extends Component {
       };
     });
   };
+
   addItem = text => {
     const newItem = this.createToDoItem(text);
     this.setState(({ todoData }) => {
@@ -87,12 +89,27 @@ class App extends Component {
   onSearchChange = query => {
     this.setState({ query });
   };
+  filter = (items, filter) => {
+    switch (filter) {
+      case 'all':
+        return items;
+      case 'on':
+        return items.filter(item => !item.done);
+      case 'off':
+        return items.filter(item => item.done);
+      default:
+        return items;
+    }
+  };
+  onFilterChange = filter => {
+    this.setState({ filter });
+  };
 
   render() {
-    const { todoData, query } = this.state;
+    const { todoData, query, filter } = this.state;
     const doneCount = todoData.filter(el => el.done).length; //filtered all elements where done: true!
     const toDoCount = todoData.length - doneCount;
-    const itemsToShow = this.searchEvent(todoData, query);
+    const itemsToShow = this.filter(this.searchEvent(todoData, query), filter);
 
     console.log(query);
 
@@ -101,7 +118,10 @@ class App extends Component {
         <AppHeader toDo={toDoCount} done={doneCount} />
         <div className="top-panel d-flex">
           <SearchPanel onSearchChange={this.onSearchChange} />
-          <ItemStatusFilter />
+          <ItemStatusFilter
+            filter={filter}
+            onFilterChange={this.onFilterChange}
+          />
         </div>
         <TodoList
           onDeleted={this.deleteItemState}
