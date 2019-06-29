@@ -3,14 +3,6 @@ import React, { Component } from 'react';
 import './todo-list-item.css';
 
 class TodoListItem extends Component {
-  constructor() {
-    super();
-    this.state = {
-      done: false,
-      important: false,
-    };
-  }
-
   render() {
     const {
       label,
@@ -19,7 +11,7 @@ class TodoListItem extends Component {
       onToggleImportant,
       done,
       important = false,
-    } = this.props; //destructor props
+    } = this.props;
 
     let classNames = 'todo-list-item';
     if (done) {
